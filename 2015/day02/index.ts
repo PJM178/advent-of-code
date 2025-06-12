@@ -26,3 +26,37 @@ function calculatePaperNeeded() {
 }
 
 calculatePaperNeeded();
+
+// Part 2
+function findTwoSmallest(arr: number[]) {
+  let min1 = Infinity;
+  let min2 = Infinity;
+
+  for (const num of arr) {
+    if (num < min1) {
+      min2 = min1;
+      min1 = num;
+    } else if (num < min2) {
+      min2 = num;
+    }
+  }
+
+  return [min1, min2];
+}
+
+function calculateRibbonNeeded() {
+  let ribbonNeeded = 0;
+
+  for (let i = 0; i < lines.length; i++) {
+    const [l, w, h] = lines[i].split("x").map(Number);
+    const [min1, min2] = findTwoSmallest([l, w, h])
+    const present = 2 * min1 + 2 * min2;
+    const ribbon = l * w * h;
+
+    ribbonNeeded += (present + ribbon);
+  }
+
+  console.log("Ribbon needed: " + ribbonNeeded + " feet");
+}
+
+calculateRibbonNeeded();
