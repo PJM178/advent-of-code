@@ -18,7 +18,7 @@ function calculateFloor() {
   }
 
   console.log("Floor: " + floor);
-};
+}
 
 calculateFloor();
 
@@ -44,6 +44,6 @@ function basementPositionInInputData() {
   }
 
   console.log("Basement position: " + basementPosition);
-};
+}
 
 basementPositionInInputData();
