@@ -3,8 +3,6 @@ import fs from "fs";
 
 const input = fs.readFileSync("./input.txt", "utf-8").trim();
 const lines = input.split("\n");
-const bannedStrings = new Map();
-
 
 // Part 1
 function checkTwiceInRowCharacters(str: string): boolean {
@@ -54,7 +52,7 @@ function calculateNiceStrings(strings: string[]) {
   let niceStrings = 0;
 
   for (const string of strings) {
-    if (checkIfNotContainString(string) && checkTwiceInRowCharacters(string) && checkIfContainsVowels(string) ) {
+    if (checkIfNotContainString(string) && checkTwiceInRowCharacters(string) && checkIfContainsVowels(string)) {
       niceStrings += 1;
     }
   }
@@ -63,3 +61,53 @@ function calculateNiceStrings(strings: string[]) {
 }
 
 calculateNiceStrings(lines);
+
+// Part 2
+function checkIfCombinationAppearsTwice(str: string): boolean {
+  let combination = "";
+
+  for (let i = 0; i < str.length; i++) {
+    if (i < (str.length - 1)) {
+      combination = str[i] + str[i + 1];
+      const splitStr = str.split(combination).join("");
+
+      if (splitStr.length <= (str.length - 4)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+function checkRepeatStrings(str: string): boolean {
+  let combination = "";
+
+  for (let i = 0; i < str.length; i++) {
+    if (i < (str.length - 2)) {
+      combination = str[i] + str[i + 1] + str[i + 2];
+
+      if (combination[0] === combination[2]) {
+        return true;
+      }
+    } else {
+      break;
+    }
+  }
+
+  return false;
+}
+
+function calculateNiceStringsPart2(strings: string[]) {
+  let niceStrings = 0;
+
+  for (const string of strings) {
+    if (checkIfCombinationAppearsTwice(string) && checkRepeatStrings(string)) {
+      niceStrings += 1;
+    }
+  }
+
+  console.log("Number of nice strings modified: " + niceStrings);
+}
+
+calculateNiceStringsPart2(lines);
