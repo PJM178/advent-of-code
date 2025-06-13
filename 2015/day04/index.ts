@@ -21,3 +21,6 @@ function findStringsMD5Hashed(key: string, startsWithAmount: number) {
 }
 
 findStringsMD5Hashed("ckczppom", 5);
+
+// Part 2
+findStringsMD5Hashed("ckczppom", 6);
