@@ -17,7 +17,7 @@ function findStringsMD5Hashed(key: string, startsWithAmount: number) {
     }
   }
 
-  console.log("Lowest number starting with '00000': " + followingNumber);
+  console.log(`Lowest number starting with ${startsWithAmount} zeroes: ` + followingNumber);
 }
 
 findStringsMD5Hashed("ckczppom", 5);
