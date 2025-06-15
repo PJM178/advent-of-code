@@ -17,7 +17,7 @@ const operatorsObject = {
   "RSHIFT": (x: number, y: number) => (x != null && y != null ? x >> y : null),
 }
 
-function initializeWires(lines: string[]) {
+function initializeWires(lines: string[], overridevalue?: { key: string, value: number }[]) {
   const wires = new Map();
 
   for (let i = 0; i < lines.length; i++) {
@@ -30,11 +30,17 @@ function initializeWires(lines: string[]) {
     });
   }
 
+  if (overridevalue) {
+    overridevalue.forEach(({ key, value }) => {
+      wires.set(key, value);
+    })
+  }
+
   return wires;
 }
 
-function signalToWire(lines: string[], wire: string) {
-  const wires = initializeWires(lines);
+function signalToWire(lines: string[], wire: string, overridevalue?: { key: string, value: number }[]) {
+  const wires = initializeWires(lines, overridevalue);
 
   if (!wires.has(wire)) {
     console.log(`Wire ${wire} not found in data.`);
@@ -71,6 +77,14 @@ function signalToWire(lines: string[], wire: string) {
   }
 
   console.log(`Signal provided to wire ${wire}: ` + wires.get(wire));
+
+  return wires.get(wire);
 }
 
 signalToWire(lines, "a");
+
+// Part 2
+
+const signalToWireA = signalToWire(lines, "a");
+
+signalToWire(lines, "a", [{ key: "b", value: signalToWireA }]);
