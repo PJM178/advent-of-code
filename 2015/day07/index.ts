@@ -9,6 +9,14 @@ const wires = new Map();
 
 const operators = ["AND", "LSHIFT", "RSHIFT", "NOT", "OR"];
 
+const operatorsObject = {
+  "NOT": (x: number) => (x != null ? ~x : null),
+  "AND": (x: number, y: number) => (x != null && y != null ? x & y : null),
+  "OR": (x: number, y: number) => (x != null && y != null ? x | y : null),
+  "LSHIFT": (x: number, y: number) => (x != null && y != null ? x << y : null),
+  "RSHIFT": (x: number, y: number) => (x != null && y != null ? x >> y : null),
+}
+
 function initializeWires(lines: string[]) {
   const wires = new Map();
 
@@ -44,10 +52,22 @@ function signalToWire(lines: string[], wire: string) {
         } else if (wires.get(splittedLine[0]) && !wires.get(splittedLine[2])) {
           wires.set(splittedLine[2], wires.get(splittedLine[0]));
         }
+      } else if (splittedLine.length === 4) {
+        const wire = wires.get(splittedLine[1]);
+
+        if (wire && !wires.get(splittedLine[3])) {
+          wires.set(splittedLine[3], ~wire);
+        }
+      } else {
+        const wire1 = Number(splittedLine[0]) ? Number(splittedLine[0]) : wires.get(splittedLine[0]);
+        const wire2 = Number(splittedLine[2]) ? Number(splittedLine[2]) : wires.get(splittedLine[2]);
+        const productLine = wires.get(splittedLine[4]);
+
+        if (wire1 !== null && wire2 !== null && !productLine) {
+          wires.set(splittedLine[4], operatorsObject[splittedLine[1] as keyof typeof operatorsObject] ? operatorsObject[splittedLine[1] as keyof typeof operatorsObject](wire1, wire2) : null);
+        }
       }
     }
-
-    break;
   }
 
   console.log(`Signal provided to wire ${wire}: ` + wires.get(wire));
