@@ -5,7 +5,7 @@ const input = fs.readFileSync("./input.txt", "utf-8").trim();
 const lines = input.split("\n");
 
 // Part 1
-function characterNumber(lines: string[]): number {
+function characterNumber(lines: string[], doubleEscape?: boolean): number {
   let count = 0;
 
   for (const string of lines) {
@@ -13,8 +13,15 @@ function characterNumber(lines: string[]): number {
     const rawStringLength = rawString.length;
     const interpretedString = eval(rawString);
     const interpretedStringLength = interpretedString.length;
-  
-    count += rawStringLength - interpretedStringLength;
+    if (doubleEscape) {
+      const replaced1 = rawString.replace(/\\/g, '\\\\');
+      const replaced3 = replaced1.replace(/"/g, '\\"');
+      const replaced4 = `"${replaced3}"`;
+
+      count += replaced4.length - rawStringLength;
+    } else {
+      count += rawStringLength - interpretedStringLength;
+    }
   }
 
   return count;
@@ -23,3 +30,8 @@ function characterNumber(lines: string[]): number {
 const numberOfCharacters = characterNumber(lines);
 
 console.log("Total number of specific characters in the file: " + numberOfCharacters);
+
+// Part 2
+const numberOfCharactersPart2 = characterNumber(lines, true);
+
+console.log("Total number of specific characters in the file part 2: " + numberOfCharactersPart2);
