@@ -1,4 +1,4 @@
-// URL: https://adventofcode.com/2015/day/6
+// URL: https://adventofcode.com/2015/day/7
 import fs from "fs";
 
 const input = fs.readFileSync("./input.txt", "utf-8").trim();
@@ -15,9 +15,9 @@ const operatorsObject = {
   "OR": (x: number, y: number) => (x != null && y != null ? x | y : null),
   "LSHIFT": (x: number, y: number) => (x != null && y != null ? x << y : null),
   "RSHIFT": (x: number, y: number) => (x != null && y != null ? x >> y : null),
-}
+};
 
-function initializeWires(lines: string[], overridevalue?: { key: string, value: number }[]) {
+function initializeWires(lines: string[], overrideValue?: { key: string, value: number }[]) {
   const wires = new Map();
 
   for (let i = 0; i < lines.length; i++) {
@@ -30,8 +30,8 @@ function initializeWires(lines: string[], overridevalue?: { key: string, value: 
     });
   }
 
-  if (overridevalue) {
-    overridevalue.forEach(({ key, value }) => {
+  if (overrideValue) {
+    overrideValue.forEach(({ key, value }) => {
       wires.set(key, value);
     })
   }
@@ -39,8 +39,8 @@ function initializeWires(lines: string[], overridevalue?: { key: string, value: 
   return wires;
 }
 
-function signalToWire(lines: string[], wire: string, overridevalue?: { key: string, value: number }[]) {
-  const wires = initializeWires(lines, overridevalue);
+function signalToWire(lines: string[], wire: string, overrideValue?: { key: string, value: number }[]) {
+  const wires = initializeWires(lines, overrideValue);
 
   if (!wires.has(wire)) {
     console.log(`Wire ${wire} not found in data.`);
