@@ -24,7 +24,6 @@ function lookAndSay(str: string, count: number): string {
 
       newNumber1 += String(amountOfPrevNum) + String(prevNum);
     } else if (i % 2 === 0) {
-
       let prevNum = newNumber2[0];
       let amountOfPrevNum = 0;
 
@@ -65,3 +64,9 @@ function lookAndSay(str: string, count: number): string {
 const result = lookAndSay("1113222113", 40);
 
 console.log(`Length of the result: ${result.length}`);
+
+// Part 2
+
+const resultPart2 = lookAndSay("1113222113", 50);
+
+console.log(`Length of the part 2 result: ${resultPart2.length}`);
