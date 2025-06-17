@@ -61,10 +61,10 @@ function calculatePairDistances(arr: string[]): Map<string, number> {
   return result;
 }
 
-function solveTSP(arr: string[]): { route: string[], distance: number } {
+function solveTSP(arr: string[], shortest: boolean): { route: string[], distance: number } {
   const permutations = getPermutations(uniqueValuesToArray(arr));
   const pairDistances = calculatePairDistances(arr);
-  let distance = Infinity;
+  let distance = shortest ? Infinity : 0;
   let route = arr;
 
   for (const arr of permutations) {
@@ -75,7 +75,7 @@ function solveTSP(arr: string[]): { route: string[], distance: number } {
       currentDistance += pairDistance ?? 0;
     }
 
-    if (currentDistance < distance) {
+    if (shortest ? currentDistance < distance : currentDistance > distance) {
       distance = currentDistance;
       route = arr;
     }
@@ -84,6 +84,12 @@ function solveTSP(arr: string[]): { route: string[], distance: number } {
   return { route: route, distance: distance };
 }
 
-const result = solveTSP(lines);
+const result = solveTSP(lines, true);
 
 console.log(`The route ${result.route.join(" -> ")} is the shortest route with the distance of ${result.distance}`);
+
+// Part 2
+
+const resultLongest = solveTSP(lines, false);
+
+console.log(`The route ${resultLongest.route.join(" -> ")} is the longest route with the distance of ${resultLongest.distance}`);
