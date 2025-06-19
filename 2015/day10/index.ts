@@ -59,7 +59,7 @@ function lookAndSay(str: string, count: number): string {
   }
 
   return newNumber1.length === 0 ? newNumber2 : newNumber1;
-};
+}
 
 const result = lookAndSay("1113222113", 40);
 
