@@ -25,7 +25,38 @@ function checkStraightLetters(input: string, count: number, alphabet: string[]):
   return false;
 }
 
-console.log(checkStraightLetters("aabdc,", 3, alphabet));
+function checkIllegalCharacters(input: string, letters: string[]): boolean {
+  for (let i = 0; i < input.length; i++) {
+    if (letters.includes(input[i])) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+function checkNonOverlappingPairs(input: string, count: number): boolean {
+  let pairs: string[] = [];
+  let pair = "";
+
+  for (let i = 0; i < input.length - 1; i++) {
+    if (input[i] === input[i + 1]) {
+      let pair = input[i] + input[i + 1];
+
+      if (!pairs.includes(pair)) {
+        pairs.push(pair);
+      }
+    }
+
+    if (pairs.length === count) {
+      return true;
+    }
+  }
+
+  return false;
+}
+console.log(checkNonOverlappingPairs("aabaaddc", 2));
+console.log(checkStraightLetters("aabaaddc,", 3, alphabet));
 
 function handleNewPassword(oldPassword: string) {
 
