@@ -1,2 +1,2 @@
-# advent-of-code
-Advent of Code challenges
+# Advent of Code
+Yearly coding challenges of Advent of Code.
