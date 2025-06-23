@@ -60,13 +60,8 @@ function checkNonOverlappingPairs(input: string, count: number): boolean {
 function handleNewPassword(oldPassword: string, alphabet: string[]) {
   let newPassword = oldPassword.split("");
 
-  firstWhile:
   while (true) {
     for (let i = (newPassword.length - 1); i >= 0; i--) {
-      if ((checkStraightLetters(newPassword.join(""), 3, alphabet) && !checkIllegalCharacters(newPassword.join(""), ["i", "o", "l"]) && checkNonOverlappingPairs(newPassword.join(""), 2))) {
-        break firstWhile;
-      }
-
       const alphabetIndex = alphabet.indexOf(newPassword[i]);
 
       if (alphabetIndex === (alphabet.length - 1)) {
@@ -77,11 +72,28 @@ function handleNewPassword(oldPassword: string, alphabet: string[]) {
         break;
       }
     }
+
+    if ((checkStraightLetters(newPassword.join(""), 3, alphabet) && !checkIllegalCharacters(newPassword.join(""), ["i", "o", "l"]) && checkNonOverlappingPairs(newPassword.join(""), 2))) {
+      break;
+    }
   }
 
   return newPassword.join("");
 }
 
-const newPassword = handleNewPassword("hxbxwxba", alphabet);
+const newPassword = handleNewPassword(oldPassword, alphabet);
 
 console.log("Santa's new password: " + newPassword);
+
+// Part 2
+function replacePasswords(password: string, count: number, alphabet: string[]) {
+  let newPassword = password;
+
+  for (let i = 0; i < count; i++) {
+    newPassword = handleNewPassword(newPassword, alphabet);
+  }
+
+  return newPassword;
+}
+
+console.log("Santa's new password: " + replacePasswords(oldPassword, 2, alphabet));
