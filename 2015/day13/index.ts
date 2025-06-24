@@ -24,7 +24,15 @@ function formatData(data: string[]): Record<string, Record<string, number>> {
       object[previousName] = { ...object[previousName], ...newObject };
     } else {
       const key = splittedLine[0];
-      object[key] = {};
+      const newObject: Record<string, number> = {};
+
+      if (splittedLine[2] === "lose") {
+        newObject[splittedLine[splittedLine.length - 1].split(".")[0]] = Number(-splittedLine[3]);
+      } else {
+        newObject[splittedLine[splittedLine.length - 1].split(".")[0]] = Number(splittedLine[3]);
+      }
+
+      object[key] = { ...newObject };
     }
 
     previousName = splittedLine[0];
@@ -33,4 +41,17 @@ function formatData(data: string[]): Record<string, Record<string, number>> {
   return object;
 }
 
+function seatingHappiness(data: Record<string, Record<string, number>>): number {
+  let happiness = 0;
+  console.log(data);
+  Object.keys(data).forEach((key) => {
+    console.log(key);
+  });
+  console.log(data["Alice"]["Bob"]);
+  console.log(data["Bob"]["Alice"]);
+  return 0;
+}
+
 const data = formatData(lines);
+
+const totalHappiness = seatingHappiness(data);
