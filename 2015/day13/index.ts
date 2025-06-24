@@ -4,7 +4,7 @@ import fs from "fs";
 const input = fs.readFileSync("./input.txt", "utf-8").trim();
 const lines = input.split("\n");
 
-function formatData(data: string[]): Record<string, Record<string, number>> {
+function formatData(data: string[], addedName?: string): Record<string, Record<string, number>> {
   let previousName = data[0].split(" ")[0];
   const object: Record<string, Record<string, number>> = {};
   object[previousName] = {};
@@ -22,7 +22,16 @@ function formatData(data: string[]): Record<string, Record<string, number>> {
       }
 
       object[previousName] = { ...object[previousName], ...newObject };
+
+      if (addedName) {
+        if (i === data.length - 1) {
+          object[previousName] = { ...object[previousName], ...{ Petri: 0 } };
+        }
+      }
     } else {
+      if (addedName) {
+        object[previousName] = { ...object[previousName], ...{ Petri: 0 } };
+      }
       const key = splittedLine[0];
       const newObject: Record<string, number> = {};
 
@@ -36,6 +45,17 @@ function formatData(data: string[]): Record<string, Record<string, number>> {
     }
 
     previousName = splittedLine[0];
+  }
+  
+  if (addedName) {
+    const newObject: Record<string, number> = {}
+    const keys = Object.keys(object);
+    
+    keys.forEach((k) => {
+      newObject[k] = 0;
+    });
+    
+    object[addedName] = { ...newObject };
   }
 
   return object;
@@ -100,3 +120,10 @@ const data = formatData(lines);
 const totalHappiness = seatingHappiness(data);
 
 console.log("Maximum seating order happiness: " + totalHappiness);
+
+// Part 2
+const dataPart2 = formatData(lines, "Petri");
+
+const totalHappinessPart2 = seatingHappiness(dataPart2);
+
+console.log("Maximum seating order happiness with extra person: " + totalHappinessPart2);
