@@ -20,7 +20,6 @@ function travelTree(data: JSON, unallowedStrings?: string[]): number {
         }
       }
 
-
       sum += travelTree(v, unallowedStrings);
     }
   })
