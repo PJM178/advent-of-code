@@ -41,17 +41,62 @@ function formatData(data: string[]): Record<string, Record<string, number>> {
   return object;
 }
 
+function getPermutations(arr: string[]) {
+  const result: string[][] = [];
+
+  function permute(current: string[], remaining: string[]) {
+    if (remaining.length === 0) {
+      result.push(current);
+
+      return;
+    }
+
+    for (let i = 0; i < remaining.length; i++) {
+      const next = remaining.slice(0, i).concat(remaining.slice(i + 1));
+
+      permute(current.concat(remaining[i]), next);
+    }
+  }
+
+  permute([], arr);
+
+  return result;
+}
+
 function seatingHappiness(data: Record<string, Record<string, number>>): number {
-  let happiness = 0;
-  console.log(data);
-  Object.keys(data).forEach((key) => {
-    console.log(key);
-  });
-  console.log(data["Alice"]["Bob"]);
-  console.log(data["Bob"]["Alice"]);
-  return 0;
+  let currentHighestHappiness = Number.NEGATIVE_INFINITY;
+  const keys = Object.keys(data);
+  const permutations = getPermutations(keys);
+
+  for (const arr of permutations) {
+    let happiness = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+      let sum = 0;
+
+      if (i === arr.length - 1) {
+        sum += data[arr[i]][arr[0]];
+        sum += data[arr[0]][arr[arr.length - 1]];
+        happiness += sum;
+
+        continue;
+      }
+
+      sum += data[arr[i]][arr[i + 1]];
+      sum += data[arr[i + 1]][arr[i]];
+      happiness += sum;
+    }
+
+    if (happiness > currentHighestHappiness) {
+      currentHighestHappiness = happiness;
+    }
+  }
+
+  return currentHighestHappiness;
 }
 
 const data = formatData(lines);
 
 const totalHappiness = seatingHappiness(data);
+
+console.log("Maximum seating order happiness: " + totalHappiness);
