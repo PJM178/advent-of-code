@@ -57,7 +57,7 @@ function calculateDistanceTraveled(data: DataObject, flightDuration: number): nu
 }
 
 function flyingDistance(data: Record<string, DataObject>, flightDuration: number): [string, DataObject] {
-  // Calculate the traleved value
+  // Calculate the traveled value
   Object.entries(data).forEach(([k, v]) => {
     data[k].traveled = calculateDistanceTraveled(v, flightDuration);
   });
