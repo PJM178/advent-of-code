@@ -44,7 +44,7 @@ function formatData(lines: string[]): Ingredients {
 
 const data = formatData(lines);
 
-function findMaxScore(ingredients: Ingredients, totalAmount: number): { maxScore: number, allocation: Record<string, number> } {
+function findMaxScore(ingredients: Ingredients, totalAmount: number, caloriesLimit?: number): { maxScore: number, allocation: Record<string, number> } {
   const names = Object.keys(ingredients);
   const n = names.length;
   let maxScore = 0;
@@ -79,7 +79,8 @@ function findMaxScore(ingredients: Ingredients, totalAmount: number): { maxScore
         totals.capacity > 0 &&
         totals.durability > 0 &&
         totals.flavor > 0 &&
-        totals.texture > 0
+        totals.texture > 0 &&
+        (caloriesLimit ? totals.calories === caloriesLimit : true)
       ) {
         const score =
           totals.capacity *
@@ -126,3 +127,9 @@ function findMaxScore(ingredients: Ingredients, totalAmount: number): { maxScore
 const score = findMaxScore(data, 100);
 
 console.log("Total score of the highest scoring cookie: " + score.maxScore + " - " + Array.from(Object.entries(score.allocation).map((e) => e.join(", "))).join("; "));
+
+// Part 2
+const caloriesLimit = 500;
+const scorePart2 = findMaxScore(data, 100, caloriesLimit);
+
+console.log(`Total score of the highest scoring cookie with calories of ${caloriesLimit}: ` + scorePart2.maxScore + " - " + Array.from(Object.entries(score.allocation).map((e) => e.join(", "))).join("; "));
