@@ -84,3 +84,44 @@ function findAunt(data: Aunt[], correctAuntProps: typeof correctAuntProperties):
 const theAunt = findAunt(dataPart1, correctAuntProperties);
 
 console.log("The aunt that gave the gift: " + theAunt.name);
+
+// Part 2
+function findAuntPart2(data: Aunt[], correctAuntProps: typeof correctAuntProperties): Aunt {
+  const auntKeys = Object.entries(correctAuntProps);
+  let correctAunt: Aunt = {
+    name: "",
+    properties: {
+
+    }
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    let isTrue = [];
+
+    for (const aunt of auntKeys) {
+      if (aunt[0] === "cats" || aunt[0] === "trees" || aunt[0] === "pomeranians" || aunt[0] === "goldfish") {
+        if (aunt[0] === "cats" || aunt[0] === "trees") {
+          if ((data[i].properties as any)[aunt[0]] > aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
+            isTrue.push(true);
+          }
+        } else {
+          if ((data[i].properties as any)[aunt[0]] < aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
+            isTrue.push(true);
+          }
+        }
+      } else if ((data[i].properties as any)[aunt[0]] === aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
+        isTrue.push(true);
+      }
+    }
+
+    if (isTrue.length === auntKeys.length) {
+      correctAunt = data[i];
+    }
+  }
+
+  return correctAunt;
+}
+
+const theActualAunt = findAuntPart2(dataPart1, correctAuntProperties);
+
+console.log("The actual aunt that gave the gift: " + theActualAunt.name);
