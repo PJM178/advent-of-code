@@ -56,7 +56,7 @@ function formatData(lines: string[]): Aunt[] {
 const dataPart1 = formatData(lines);
 
 function findAunt(data: Aunt[], correctAuntProps: typeof correctAuntProperties): Aunt {
-  const auntKeys = Object.entries(correctAuntProps);
+  const auntKeys = Object.entries(correctAuntProps) as [keyof typeof correctAuntProperties, number][];
   let correctAunt: Aunt = {
     name: "",
     properties: {
@@ -68,7 +68,7 @@ function findAunt(data: Aunt[], correctAuntProps: typeof correctAuntProperties):
     let isTrue = [];
 
     for (const aunt of auntKeys) {
-      if ((data[i].properties as any)[aunt[0]] === aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
+      if ((data[i].properties as typeof correctAuntProperties)[aunt[0]] === aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
         isTrue.push(true);
       }
     }
@@ -87,7 +87,7 @@ console.log("The aunt that gave the gift: " + theAunt.name);
 
 // Part 2
 function findAuntPart2(data: Aunt[], correctAuntProps: typeof correctAuntProperties): Aunt {
-  const auntKeys = Object.entries(correctAuntProps);
+  const auntKeys = Object.entries(correctAuntProps) as [keyof typeof correctAuntProperties, number][];
   let correctAunt: Aunt = {
     name: "",
     properties: {
@@ -101,15 +101,15 @@ function findAuntPart2(data: Aunt[], correctAuntProps: typeof correctAuntPropert
     for (const aunt of auntKeys) {
       if (aunt[0] === "cats" || aunt[0] === "trees" || aunt[0] === "pomeranians" || aunt[0] === "goldfish") {
         if (aunt[0] === "cats" || aunt[0] === "trees") {
-          if ((data[i].properties as any)[aunt[0]] > aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
+          if ((data[i].properties as typeof correctAuntProperties)[aunt[0]] > aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
             isTrue.push(true);
           }
         } else {
-          if ((data[i].properties as any)[aunt[0]] < aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
+          if ((data[i].properties as typeof correctAuntProperties)[aunt[0]] < aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
             isTrue.push(true);
           }
         }
-      } else if ((data[i].properties as any)[aunt[0]] === aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
+      } else if ((data[i].properties)[aunt[0]] === aunt[1] || (data[i].properties as any)[aunt[0]] === undefined) {
         isTrue.push(true);
       }
     }
