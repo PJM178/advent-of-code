@@ -6,13 +6,19 @@ const lines = input.split("\n");
 
 // Part 1
 // Using recursion
-function uniqueCombinations(data: string[], liters: number) {
+function uniqueCombinations(data: string[], liters: number, constraint?: number): number[][] {
   const result: number[][] = [];
   const nums = data.map(Number);
 
   function backtrack(start: number, current: number[], total: number) {
     if (total === liters) {
-      result.push([...current]);
+      if (constraint) {
+        if (current.length === constraint) {
+          result.push([...current]);
+        }
+      } else {
+        result.push([...current]);
+      }
 
       return;
     }
@@ -30,12 +36,12 @@ function uniqueCombinations(data: string[], liters: number) {
 
   backtrack(0, [], 0);
 
-  return result.length;
+  return result;
 }
 
 const combinations = uniqueCombinations(lines, 150);
 
-console.log("Number of combinations: " + combinations);
+console.log("Number of combinations: " + combinations.length);
 
 // Alternative DFS-style
 function uniqueCombinationsDFS(data: string[], liters: number): number[][] {
@@ -71,3 +77,20 @@ function uniqueCombinationsDFS(data: string[], liters: number): number[][] {
 }
 
 // Part 2
+const part2Input = uniqueCombinations(lines, 150);
+
+function minimumNumber(containers: number[][]): number {
+  let num = Infinity;
+
+  for (const container of containers) {
+    if (container.length < num) {
+      num = container.length;
+    }
+  }
+
+  return num;
+}
+
+const part2Result = uniqueCombinations(lines, 150, minimumNumber(part2Input));
+
+console.log("Number of times you can fill minimum number of containers you need to have 150 liter capacity: " + part2Result.length);
