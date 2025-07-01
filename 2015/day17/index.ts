@@ -1,4 +1,4 @@
-// URL: https://adventofcode.com/2015/day/16
+// URL: https://adventofcode.com/2015/day/17
 import fs from "fs";
 
 const input = fs.readFileSync("./input.txt", "utf-8").trim();
